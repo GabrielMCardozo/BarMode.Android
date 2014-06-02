@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BarMode</string>
+    <string name="title_activity_abrir_mesa">Entrar/Abrir Mesa</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="table_name">Nome da mesa</string>
+    <string name="nome_mesa">Nome da mesa</string>
+    <string name="tv_senha_mesa">Senha da mesa</string>
+    <string name="entrar_mesa">Entrar/Abrir</string>
+    <string name="title_activity_status_mesa">StatusMesa</string>
+    <string name="title_activity_error_report">Relatório de erros</string>
+
+</resources>
