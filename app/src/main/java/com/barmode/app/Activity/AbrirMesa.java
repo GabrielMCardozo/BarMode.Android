@@ -1,18 +1,16 @@
 package com.barmode.app.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.barmode.app.ExceptionHandler;
+import com.barmode.app.IntentBundleMesa;
 import com.barmode.app.Model.Mesa;
 import com.barmode.app.R;
 import com.barmode.app.Service.MesaService;
@@ -54,25 +52,6 @@ public class AbrirMesa extends ActionBarActivity {
         btn_entrar_mesa.setClickable(false);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.abrir_mesa, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private class Receiver extends ResultReceiver {
 
         public Receiver(Handler handler) {
@@ -88,13 +67,15 @@ public class AbrirMesa extends ActionBarActivity {
             Toast toast = Toast.makeText(AbrirMesa.this,"Criado: mesa "+ mesa.toString(),Toast.LENGTH_LONG);
             toast.show();
 
-            Bundle bundle = new Bundle();
+           /* Bundle bundle = new Bundle();
             bundle.putSerializable("Mesa", mesa);
 
             Intent intent = new Intent(AbrirMesa.this,StatusMesa.class);
             intent.putExtra("Bundle",bundle);
 
-            startActivity(intent);
+            startActivity(intent);*/
+
+            IntentBundleMesa.StartActivity(AbrirMesa.this,StatusMesa.class,mesa);
         }
     }
 }

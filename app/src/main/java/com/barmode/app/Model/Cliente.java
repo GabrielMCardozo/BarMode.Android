@@ -10,4 +10,8 @@ public class Cliente implements Serializable {
 
     public Cliente(){}
 
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -37,7 +38,7 @@ public class HttpHelper {
             if (statusCode >= 400) {
                 final String reasonPhrase = getResponse.getStatusLine().getReasonPhrase();
                 Log.w("HttpHelper", "Error: "+ reasonPhrase + statusCode + " for URL " + url);
-              return null;
+                throw new HttpResponseException(statusCode,reasonPhrase);
             }
 
             HttpEntity getResponseEntity = getResponse.getEntity();
@@ -67,7 +68,7 @@ public class HttpHelper {
             if (statusCode >= 400) {
                 final String reasonPhrase = getResponse.getStatusLine().getReasonPhrase();
                 Log.w("HttpHelper", "Error: "+ reasonPhrase + statusCode + " for URL " + url);
-                return null;
+                throw new HttpResponseException(statusCode,reasonPhrase);
             }
 
             HttpEntity getResponseEntity = getResponse.getEntity();
@@ -93,7 +94,7 @@ public class HttpHelper {
             if (statusCode >= 400){
                 final String reasonPhrase = getResponse.getStatusLine().getReasonPhrase();
                 Log.w("HttpHelper", "Error " + statusCode + " for URL " + url);
-               return null;
+                throw new HttpResponseException(statusCode,reasonPhrase);
             }
 
             HttpEntity getResponseEntity = getResponse.getEntity();

@@ -6,10 +6,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.AbrirMesa"
-            android:label="@string/title_activity_abrir_mesa" >
+            android:label="@string/title_activity_abrir_mesa"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,17 +19,28 @@
         </activity>
         <activity
             android:name=".Activity.StatusMesa"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_status_mesa" >
         </activity>
         <activity
             android:name=".Activity.ErrorReport"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_error_report" >
         </activity>
+
         <service
             android:name=".Service.MesaService"
+            android:screenOrientation="portrait"
             android:exported="false" >
         </service>
 
+        <activity
+            android:name=".Activity.FazerPedido"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_fazer_pedido" >
+        </activity>
     </application>
+
     <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
