@@ -30,6 +30,9 @@ public class StatusMesa extends ActionBarActivity {
 
     private void LoadMesa() {
         Mesa mesa = IntentBundleMesa.GetBundleMesa(this);
+
+
+
         SetMesa(mesa);
     }
 
@@ -53,7 +56,7 @@ public class StatusMesa extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menu_fazer_pedido) {
-            IntentBundleMesa.StartActivity(this, FazerPedido.class,activity_mesa);
+            IntentBundleMesa.StartActivity(this, FazerPedido.class,activity_mesa.id);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,5 +1,6 @@
 package com.barmode.app.Activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -7,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.barmode.app.ExceptionHandler;
 import com.barmode.app.IntentBundleMesa;
@@ -49,7 +49,7 @@ public class AbrirMesa extends ActionBarActivity {
 
         MesaService.startPutMesa(this,mesa,receiver);
 
-        btn_entrar_mesa.setClickable(false);
+        ProgressDialog dialog = ProgressDialog.show(AbrirMesa.this, "",getString(R.string.carregando_mesa), true);
     }
 
     private class Receiver extends ResultReceiver {
@@ -62,18 +62,7 @@ public class AbrirMesa extends ActionBarActivity {
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             btn_entrar_mesa.setClickable(true);
 
-            Mesa mesa= (Mesa)resultData.getSerializable(MesaService.RESULT_KEY);
-
-            Toast toast = Toast.makeText(AbrirMesa.this,"Criado: mesa "+ mesa.toString(),Toast.LENGTH_LONG);
-            toast.show();
-
-           /* Bundle bundle = new Bundle();
-            bundle.putSerializable("Mesa", mesa);
-
-            Intent intent = new Intent(AbrirMesa.this,StatusMesa.class);
-            intent.putExtra("Bundle",bundle);
-
-            startActivity(intent);*/
+            Mesa mesa = (Mesa)resultData.getSerializable(MesaService.RESULT_KEY);
 
             IntentBundleMesa.StartActivity(AbrirMesa.this,StatusMesa.class,mesa);
         }

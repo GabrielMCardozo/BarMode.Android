@@ -18,5 +18,7 @@
     <string name="adicionar_cliente">Adicionar cliente</string>
     <string name="tv_nome_cliente">Nome do cliente</string>
     <string name="salvar_pedido">Salvar pedido</string>
+    <string name="carregando_mesa">Carregando. Por favor aguarde...</string>
+    <string name="salvando_pedido">Salvando pedido...</string>
 
 </resources>

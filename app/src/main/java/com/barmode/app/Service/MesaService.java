@@ -8,6 +8,7 @@ import android.os.ResultReceiver;
 
 import com.barmode.app.HttpHelper;
 import com.barmode.app.Model.Mesa;
+import com.barmode.app.Model.Pedido;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -18,9 +19,11 @@ public class MesaService extends IntentService {
 
     private static final String ACTION_GET_MESA = "com.barmode.app.Service.action.get.mesa";
     private static final String ACTION_PUT_MESA = "com.barmode.app.Service.action.put.mesa";
+    private static final String ACTION_POST_PEDIDO = "com.barmode.app.Service.action.post.pedido";
 
     private static final String EXTRA_ID_MESA = "com.barmode.app.Service.extra.id.mesa";
     private static final String EXTRA_MESA = "com.barmode.app.Service.extra.mesa";
+    private static final String EXTRA_PEDIDO = "com.barmode.app.Service.extra.pedido";
     public static final String EXTRA_RESULT_RECEIVER = "com.barmode.app.Service.extra.result.receiver";
 
     private static final String MESA_URL = "http://barmode.apphb.com/api/mesa";
@@ -42,6 +45,16 @@ public class MesaService extends IntentService {
         context.startService(intent);
     }
 
+    public static void startPostPedido(Context context, String idMesa, Pedido pedido, ResultReceiver resultReceiver) {
+        Intent intent = new Intent(context, MesaService.class);
+        intent.setAction(ACTION_POST_PEDIDO);
+        intent.putExtra(EXTRA_ID_MESA, idMesa);
+        intent.putExtra(EXTRA_PEDIDO, pedido);
+        intent.putExtra(EXTRA_RESULT_RECEIVER, resultReceiver);
+        context.startService(intent);
+    }
+
+
     public MesaService() {
         super("MesaService");
     }
@@ -55,21 +68,45 @@ public class MesaService extends IntentService {
 
             if (ACTION_GET_MESA.equals(action)) {
                 final String idMesa = intent.getStringExtra(EXTRA_ID_MESA);
-                  handleActionGetMesa(idMesa,resultReceiver);
-            } else if (ACTION_PUT_MESA.equals(action)) {
-                final Mesa mesa = (Mesa)intent.getSerializableExtra(EXTRA_MESA);
-                  handleActionPutMesa(mesa,resultReceiver);
+                handleActionGetMesa(idMesa, resultReceiver);
             }
+
+            if (ACTION_PUT_MESA.equals(action)) {
+                final Mesa mesa = (Mesa) intent.getSerializableExtra(EXTRA_MESA);
+                handleActionPutMesa(mesa, resultReceiver);
+            }
+
+            if (ACTION_POST_PEDIDO.equals(action)) {
+                final Pedido pedido = (Pedido) intent.getSerializableExtra(EXTRA_PEDIDO);
+                final String idMesa = intent.getStringExtra(EXTRA_ID_MESA);
+
+                handleActionPostPedido(idMesa, pedido, resultReceiver);
+            }
+
         }
     }
 
-    private void handleActionGetMesa(String idMesa,ResultReceiver resultReceiver) {
+    private void handleActionPostPedido(String idMesa, Pedido pedido, ResultReceiver resultReceiver) {
+        String jsonPedido = new Gson().toJson(pedido);
+
+        String urlPedido = String.format("%s/%s/pedido", MESA_URL, idMesa);
+
+        HttpHelper.postStream(urlPedido, jsonPedido);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(RESULT_KEY, idMesa);
+
+        resultReceiver.send(0, bundle);
+    }
+
+    private void handleActionGetMesa(String idMesa, ResultReceiver resultReceiver) {
 
         String url = MESA_URL + "/" + idMesa;
 
         Reader reader = new InputStreamReader(HttpHelper.retrieveStream(url));
 
-        Mesa mesa = new Gson().fromJson(reader,new TypeToken<Mesa> (){}.getType());
+        Mesa mesa = new Gson().fromJson(reader, new TypeToken<Mesa>() {
+        }.getType());
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(RESULT_KEY, mesa);
@@ -77,13 +114,13 @@ public class MesaService extends IntentService {
         resultReceiver.send(0, bundle);
     }
 
-    private void handleActionPutMesa(Mesa mesa,ResultReceiver resultReceiver) {
+    private void handleActionPutMesa(Mesa mesa, ResultReceiver resultReceiver) {
 
         String jsonNewTable = new Gson().toJson(mesa);
 
-        Reader reader = new InputStreamReader(HttpHelper.putStream(MESA_URL,jsonNewTable));
+        Reader reader = new InputStreamReader(HttpHelper.putStream(MESA_URL, jsonNewTable));
 
-        Mesa receivedMesa = new Gson().fromJson(reader,Mesa.class);
+        Mesa receivedMesa = new Gson().fromJson(reader, Mesa.class);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(RESULT_KEY, receivedMesa);
