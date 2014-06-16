@@ -1,9 +1,6 @@
 package com.barmode.app.Activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +10,6 @@ import com.barmode.app.ExceptionHandler;
 import com.barmode.app.IntentBundleMesa;
 import com.barmode.app.Model.Mesa;
 import com.barmode.app.R;
-import com.barmode.app.Service.MesaService;
 
 
 public class AbrirMesa extends ActionBarActivity {
@@ -40,31 +36,12 @@ public class AbrirMesa extends ActionBarActivity {
     }
 
     public void EntrarMesa(){
-
         Mesa mesa = new Mesa();
         mesa.nome = txt_nome_mesa.getText().toString().trim();
         mesa.senha = txt_senha_mesa.getText().toString().trim();
 
-        Receiver receiver = new Receiver(new Handler());
-
-        MesaService.startPutMesa(this,mesa,receiver);
-
-        ProgressDialog dialog = ProgressDialog.show(AbrirMesa.this, "",getString(R.string.carregando_mesa), true);
+        IntentBundleMesa.StartActivity(AbrirMesa.this,StatusMesa.class, mesa);
     }
 
-    private class Receiver extends ResultReceiver {
 
-        public Receiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-            btn_entrar_mesa.setClickable(true);
-
-            Mesa mesa = (Mesa)resultData.getSerializable(MesaService.RESULT_KEY);
-
-            IntentBundleMesa.StartActivity(AbrirMesa.this,StatusMesa.class,mesa);
-        }
-    }
 }

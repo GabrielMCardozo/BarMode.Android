@@ -10,7 +10,6 @@ import com.barmode.app.HttpHelper;
 import com.barmode.app.Model.Mesa;
 import com.barmode.app.Model.Pedido;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -91,12 +90,9 @@ public class MesaService extends IntentService {
 
         String urlPedido = String.format("%s/%s/pedido", MESA_URL, idMesa);
 
-        HttpHelper.postStream(urlPedido, jsonPedido);
+        Reader reader = new InputStreamReader(HttpHelper.postStream(urlPedido, jsonPedido));
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(RESULT_KEY, idMesa);
-
-        resultReceiver.send(0, bundle);
+        processMesaResponse(reader,resultReceiver);
     }
 
     private void handleActionGetMesa(String idMesa, ResultReceiver resultReceiver) {
@@ -105,13 +101,7 @@ public class MesaService extends IntentService {
 
         Reader reader = new InputStreamReader(HttpHelper.retrieveStream(url));
 
-        Mesa mesa = new Gson().fromJson(reader, new TypeToken<Mesa>() {
-        }.getType());
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(RESULT_KEY, mesa);
-
-        resultReceiver.send(0, bundle);
+        processMesaResponse(reader,resultReceiver);
     }
 
     private void handleActionPutMesa(Mesa mesa, ResultReceiver resultReceiver) {
@@ -120,6 +110,10 @@ public class MesaService extends IntentService {
 
         Reader reader = new InputStreamReader(HttpHelper.putStream(MESA_URL, jsonNewTable));
 
+        processMesaResponse(reader,resultReceiver);
+    }
+
+    private void processMesaResponse(Reader reader, ResultReceiver resultReceiver){
         Mesa receivedMesa = new Gson().fromJson(reader, Mesa.class);
 
         Bundle bundle = new Bundle();

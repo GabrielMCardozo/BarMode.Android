@@ -8,10 +8,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activity.FazerPedido">
 
+    <Button
+        android:id="@+id/btn_salvar_pedido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/salvar_pedido" />
+
     <TextView
         android:id="@+id/tv_nome_produto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btn_salvar_pedido"
         android:layout_margin="10dp"
         android:text="@string/nome_produto" />
 
@@ -19,6 +28,7 @@
         android:id="@+id/txt_nome_produto"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btn_salvar_pedido"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/tv_nome_produto"
         android:text="batata" />
@@ -79,14 +89,6 @@
         android:layout_marginTop="10dp"
         android:choiceMode="singleChoice" />
 
-    <Button
-        android:id="@+id/btn_salvar_pedido"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/lv_clientes"
-        android:layout_below="@id/lv_clientes"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/salvar_pedido" />
+
 
 </RelativeLayout>

@@ -20,5 +20,12 @@
     <string name="salvar_pedido">Salvar pedido</string>
     <string name="carregando_mesa">Carregando. Por favor aguarde...</string>
     <string name="salvando_pedido">Salvando pedido...</string>
+    <string name="pedidos">Pedidos</string>
+    <string name="clientes">clientes</string>
+    <string name="title_activity_fechar_conta">FecharConta</string>
+    <string name="total_conta">Total da conta</string>
+    <string name="saldo_zerado">0</string>
+    <string name="clientes_fechar">Clientes a fechar</string>
+    <string name="fechar_conta">Fechar</string>
 
 </resources>
